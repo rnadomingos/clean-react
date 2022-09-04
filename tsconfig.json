@@ -3,8 +3,8 @@
     "target": "es5",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM.Iterable",
+      "ESNext"
     ],
     "esModuleInterop": true,
     "module": "esnext",
