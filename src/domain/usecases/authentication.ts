@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/method-signature-style */
 import { AccountModel } from 'domain/models/account-model'
 
-type AuthenticationParams = {
+export type AuthenticationParams = {
   email: string
   password: string
 }
