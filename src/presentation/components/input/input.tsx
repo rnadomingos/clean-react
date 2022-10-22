@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useContext } from 'react'
 import Styles from './input-styles.scss'
 import Context from '@/presentation/context/form/form-context'
@@ -25,7 +26,3 @@ const Input: React.FC<Props> = (props: Props) => {
 }
 
 export default Input
-
-/*
-15 min aula 08
-*/
