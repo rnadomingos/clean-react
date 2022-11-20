@@ -16,7 +16,7 @@ type SutTypes = {
 type SutParams = {
   validationError: string
 }
-const history = createMemoryHistory()
+const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
@@ -32,11 +32,11 @@ const makeSut = (params?: SutParams): SutTypes => {
   }
 }
 
-const simulateValidSubmit = (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): void => {
+const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
   populateEmailField(sut, email)
   populatePasswordField(sut, password)
   const submitButton = sut.getByTestId('submit')
-  fireEvent.click(submitButton)
+  await waitFor(async () => fireEvent.click(submitButton))
 }
 
 const populateEmailField = (sut: RenderResult, email = faker.internet.email()): void => {
@@ -63,7 +63,7 @@ describe('Login Component', () => {
   }
   )
 
-  test('Should start with initial state ', () => {
+  test('Should start with initial state ', async () => {
     const validationError = faker.random.words()
     const { sut } = makeSut({ validationError })
     const errorWrap = sut.getByTestId('error-wrap')
@@ -108,28 +108,28 @@ describe('Login Component', () => {
     expect(submitButton.disabled).toBe(false)
   })
 
-  test('should show spinner on submit', () => {
+  test('should show spinner on submit', async () => {
     const { sut } = makeSut()
-    simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
     const spinner = sut.getByTestId('spinner')
-    expect(spinner).toBeTruthy()
+    await waitFor(() => expect(spinner).toBeTruthy())
   })
 
-  test('should call Authentication with correct values', () => {
+  test('should call Authentication with correct values', async () => {
     const { sut, authenticationSpy } = makeSut()
     const email = faker.internet.email()
     const password = faker.internet.password()
-    simulateValidSubmit(sut, email, password)
+    await simulateValidSubmit(sut, email, password)
     expect(authenticationSpy.params).toEqual({
       email,
       password
     })
   })
 
-  test('should call Authentication only once', () => {
+  test('should call Authentication only once', async () => {
     const { sut, authenticationSpy } = makeSut()
-    simulateValidSubmit(sut)
-    simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
@@ -145,7 +145,7 @@ describe('Login Component', () => {
     const { sut, authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
-    simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
     const errorWrap = sut.getByTestId('error-wrap')
     await waitFor(() => expect(errorWrap.childElementCount).toBe(1))
     // NOT FOUNT MAIN ERROR
@@ -155,9 +155,11 @@ describe('Login Component', () => {
 
   test('should add accessToken to localstorage on success', async () => {
     const { sut, authenticationSpy } = makeSut()
-    simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 
   test('Should go to signup page', () => {
