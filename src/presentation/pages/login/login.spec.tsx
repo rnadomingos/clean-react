@@ -71,7 +71,7 @@ const testElementExists = (sut: RenderResult, fieldName: string): void => {
   expect(el).toBeTruthy()
 }
 
-// const testElementText = (sut: RenderResult, fieldName: string, text: string): void => {
+// const testElementText = async (sut: RenderResult, fieldName: string, text: string): Promise<void> => {
 //   const el = sut.getByTestId(fieldName)
 //   expect(el.textContent).toBe(text)
 // }
@@ -173,6 +173,16 @@ describe('Login Component', () => {
     expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
+  })
+
+  test('should present error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
+    await simulateValidSubmit(sut)
+    // ELEMENT NOT EXISTS
+    // await testElementText(sut, 'main-error', error.message)
+    testErrorWrapChildCount(sut, 1)
   })
 
   test('Should go to signup page', () => {
