@@ -9,5 +9,5 @@ export type AddAccountParams = {
 }
 
 export type AddAccount = {
-  auth (params: AddAccountParams): Promise<AccountModel>
+  add (params: AddAccountParams): Promise<AccountModel>
 }
