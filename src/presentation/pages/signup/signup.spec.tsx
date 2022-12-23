@@ -1,4 +1,4 @@
-import { fireEvent, render, RenderResult } from '@testing-library/react'
+import { render, RenderResult } from '@testing-library/react'
 import React from 'react'
 import Signup from './signup'
 import { Helper, ValidationStub } from '@/presentation/test'
@@ -24,11 +24,6 @@ const makeSut = (params?: SutParams): SutTypes => {
   }
 }
 
-const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
-  const emailInput = sut.getByTestId(fieldName)
-  fireEvent.input(emailInput, { target: { value } })
-}
-
 describe('SignUp Component', () => {
   test('Should start with initial state ', async () => {
     const validationError = 'Campo Obrigatorio'
@@ -44,7 +39,7 @@ describe('SignUp Component', () => {
   test('should show name error if Validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSut({ validationError })
-    populateField(sut, 'name')
+    Helper.populateField(sut, 'name')
     Helper.testStatusForField(sut, 'name', validationError)
   })
 })
