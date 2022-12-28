@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Styles from './signup-styles.scss'
 import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 import Context from '@/presentation/context/form/form-context'
 import { IValidation } from '@/presentation/protocols/validation'
-import { AddAccount } from '@/domain/usecases'
+import { AddAccount, SaveAccessToken } from '@/domain/usecases'
 
 type Props = {
   validation: IValidation
   addAccount: AddAccount
+  saveAccessToken: SaveAccessToken
 }
 
-const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
+const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Props) => {
+  const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -34,7 +37,6 @@ const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
       passwordConfirmationError: validation.validate('password', state.passwordConfirmation)
     })
   }, [state.name, state.email, state.password, state.passwordConfirmation])
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
@@ -45,12 +47,14 @@ const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
         ...state,
         isLoading: true
       })
-      await addAccount.add({
+      const account = await addAccount.add({
         name: state.name,
         email: state.email,
         password: state.password,
         passwordConfirmation: state.passwordConfirmation
       })
+      await saveAccessToken.save(account.accessToken)
+      history.replace('/')
     } catch (error) {
       setState({
         ...state,
