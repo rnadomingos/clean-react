@@ -45,11 +45,6 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.ema
   await waitFor(async () => fireEvent.submit(form))
 }
 
-// const testElementText = async (sut: RenderResult, fieldName: string, text: string): Promise<void> => {
-//   const el = sut.getByTestId(fieldName)
-//   expect(el.textContent).toBe(text)
-// }
-
 describe('Login Component', () => {
   afterEach(cleanup)
 
@@ -131,8 +126,8 @@ describe('Login Component', () => {
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit(sut)
-    // ELEMENT NOT EXISTS
-    // testElementText(sut, 'main-error', error.message)
+    // ELEMENT NOT EXISTS BUG
+    // Helper.testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
 

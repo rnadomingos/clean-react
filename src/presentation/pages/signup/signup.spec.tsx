@@ -38,11 +38,6 @@ const simulateValidSubmit = async (sut: RenderResult, name = faker.random.word()
   await waitFor(async () => fireEvent.submit(form))
 }
 
-// const testElementText = (sut: RenderResult, fieldName: string, text: string): void => {
-//   const el = sut.getByTestId(fieldName)
-//   expect(el.textContent).toBe(text)
-// }
-
 describe('SignUp Component', () => {
   test('Should start with initial state ', async () => {
     const validationError = 'Campo Obrigatorio'
@@ -156,6 +151,7 @@ describe('SignUp Component', () => {
     jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
     await simulateValidSubmit(sut)
     Helper.testChildCount(sut, 'error-wrap', 1)
-    // testElementText(sut, 'main-error', error.message)
+    // ELEMENT NOT EXISTS BUG
+    // Helper.testElementText(sut, 'main-error', error.message)
   })
 })
