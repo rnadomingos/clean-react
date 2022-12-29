@@ -33,6 +33,15 @@ button {
   border: none;
   line-height: 60px;
 
+  &:disabled {
+    background-color: $disableBackground;
+    color: $disableColor;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   &:hover {
     opacity: 0.9;
   }
