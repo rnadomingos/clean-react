@@ -1,5 +1,5 @@
 {
-  "*.{ts,tsx}": [
+  "!(src/main/test/cypress/**/*)*.{ts,tsx}": [
     "eslint 'src/**' --fix",
     "npm run test:staged"
   ]
