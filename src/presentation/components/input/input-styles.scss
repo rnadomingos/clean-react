@@ -3,7 +3,7 @@
 .inputWrap {
   margin-top: 40px;
   position: relative;
-  border-bottom: 2px dashed $disableColor;
+  border-bottom: 1px double $disableBackground;
 
   &::after {
     content: "";
