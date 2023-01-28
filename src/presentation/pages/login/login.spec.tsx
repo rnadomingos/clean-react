@@ -126,9 +126,8 @@ describe('Login Component', () => {
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit(sut)
-    // ELEMENT NOT EXISTS BUG
-    // Helper.testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
+    await waitFor(async () => Helper.testElementText(sut, 'main-error', error.message))
   })
 
   test('should call SaveAccessToken on success', async () => {
@@ -144,9 +143,8 @@ describe('Login Component', () => {
     const error = new InvalidCredentialsError()
     jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit(sut)
-    // ELEMENT NOT EXISTS
-    // await testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
+    await waitFor(async () => Helper.testElementText(sut, 'main-error', error.message))
   })
 
   test('Should go to signup page', () => {
