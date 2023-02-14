@@ -11,6 +11,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
+    "test:cypress": "cypress open",
     "check": "npm-check -u -s",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
@@ -18,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.16.1",
     "@faker-js/faker": "^7.6.0",
     "@testing-library/react": "^13.4.0",
     "@types/axios": "^0.14.0",
@@ -30,8 +32,10 @@
     "clean-webpack-plugin": "^4.0.0",
     "coveralls": "^3.1.1",
     "css-loader": "^6.7.2",
+    "cypress": "^4.6.0",
     "eslint": "^8.29.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
