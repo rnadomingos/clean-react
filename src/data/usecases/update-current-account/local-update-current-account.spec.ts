@@ -1,23 +1,23 @@
-import { LocalSaveAccessToken } from './local-save-access-token'
-import { UnexpectedError } from '@/domain/errors'
+import { LocalUpdateCurrentAccount } from './local-update-current-account'
 import { SetStorageMock } from '@/data/test'
 import { mockAccountModel } from '@/domain/test'
+import { UnexpectedError } from '@/domain/errors'
 
 type SutTypes = {
-  sut: LocalSaveAccessToken
+  sut: LocalUpdateCurrentAccount
   setStorageMock: SetStorageMock
 }
 
 const makeSut = (): SutTypes => {
   const setStorageMock = new SetStorageMock()
-  const sut = new LocalSaveAccessToken(setStorageMock)
+  const sut = new LocalUpdateCurrentAccount(setStorageMock)
   return {
     sut,
     setStorageMock
   }
 }
 
-describe('LocalSaveAccessToken', () => {
+describe('LocalUpdateCurrentAccount', () => {
   test('Should call SetStorage with correct value', async () => {
     const { sut, setStorageMock } = makeSut()
     const account = mockAccountModel()
