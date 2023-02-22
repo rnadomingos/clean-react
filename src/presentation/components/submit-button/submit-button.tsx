@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext } from 'react'
-import Context from '@/presentation/context/form/form-context'
+import Context from '@/presentation/contexts/form/form-context'
 
 type Props = {
   text: string
