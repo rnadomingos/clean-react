@@ -17,7 +17,7 @@ const Router: React.FC = () => {
         <Switch>
           <Route path='/login' component={makeLogin} />
           <Route path='/signup' component={makeSignUp} />
-          <Route path='/' component={SurveyList} />
+          <Route path='/' exact component={SurveyList} />
 
         </Switch>
       </BrowserRouter>
