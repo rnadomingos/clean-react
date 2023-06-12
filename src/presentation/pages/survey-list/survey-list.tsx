@@ -25,11 +25,9 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       .then(surveys => setState({ ...state, surveys }))
       .catch(error => {
         if (error instanceof AccessDeniedError) {
-          console.log('caiu aqui')
           setCurrentAccount(undefined)
           history.replace('/login')
         } else {
-          console.log('caiu aqui2')
           setState({ ...state, error: error.message })
         }
       })
